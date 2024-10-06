@@ -1,6 +1,11 @@
 package deque;
 
-public class LinkedListDeque<T> {
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T>{
+
+
     private class TNode {
         private TNode prev;
         private T item;
@@ -32,10 +37,6 @@ public class LinkedListDeque<T> {
         sentinel.prev = new TNode(sentinel.prev, x, sentinel);
         sentinel.prev.prev.next = sentinel.prev;
         size += 1;
-    }
-
-    public boolean isEmpty() {
-        return sentinel.next == sentinel && sentinel.prev == sentinel;
     }
 
     public T get(int index) {
@@ -94,4 +95,54 @@ public class LinkedListDeque<T> {
         return getRecursiveHelper(index - 1, pointer.next);
     }
 
+    @Override
+    public Iterator<T> iterator(){
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T>{
+        int currentPos;
+        public LinkedListIterator(){
+            currentPos = 0;
+        }
+        @Override
+        public boolean hasNext() {
+            return currentPos < size;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                TNode current = sentinel;
+                for (int i = 0; i < currentPos; i ++) {
+                    current = current.next;
+                }
+                currentPos += 1;
+                return current.next.item;
+            }
+            return null;
+        }
+    }
+    @Override
+    public boolean equals(Object o){
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof LinkedListDeque oll){
+            if (oll.size() != this.size) {
+                return false;
+            }
+            TNode current = this.sentinel;
+            TNode ollCurrent = oll.sentinel;
+            while (current.next != this.sentinel) {
+                current = current.next;
+                ollCurrent = ollCurrent.next;
+                if (!current.item.equals(ollCurrent.item)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }

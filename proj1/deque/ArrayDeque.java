@@ -1,6 +1,7 @@
 package deque;
+import java.util.Iterator;
 
-public class ArrayDeque<Item> {
+public class ArrayDeque<Item> implements Deque<Item> {
     private Item[] items;
     private int size;
     private int nextFirst;
@@ -39,10 +40,6 @@ public class ArrayDeque<Item> {
         items[nextLast] = i;
         nextLast = (nextLast + 1) % items.length;
         size += 1;
-    }
-
-    public boolean isEmpty(){
-        return (nextFirst + 1) % items.length == nextLast;
     }
 
     public Item removeFirst(){
@@ -90,5 +87,50 @@ public class ArrayDeque<Item> {
         }
         System.out.println();
     }
+
+    public Iterator<Item> iterator(){
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<Item>{
+        private int currentPos;
+        private int count;
+
+        public ArrayDequeIterator(){
+            currentPos = (nextFirst + 1) % items.length;
+            count = 0;
+        }
+        @Override
+        public boolean hasNext() {
+            return count < size;
+        }
+
+        @Override
+        public Item next() {
+            Item returnItem = items[currentPos];
+            currentPos = (currentPos + 1) % items.length;
+            count += 1;
+            return returnItem;
+        }
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (! (o instanceof ArrayDeque<?>o1)) {
+            return false;
+        }
+        if (o1.size() != this.size) {
+            return false;
+        }
+        for (int i = 0; i < this.size; i ++){
+            if (!this.get(i).equals(o1.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

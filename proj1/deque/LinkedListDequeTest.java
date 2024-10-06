@@ -1,7 +1,9 @@
 package deque;
 
-import org.checkerframework.common.util.report.qual.ReportWrite;
 import org.junit.Test;
+
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 
@@ -155,6 +157,47 @@ public class LinkedListDequeTest {
         lld1.addFirst(3);
         System.out.println(lld1.getRecursive(1));
         System.out.println(lld1.get(1));
+    }
+
+    @Test
+    public void testIterator(){
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addFirst(1);
+        lld1.addLast(2);
+        lld1.addFirst(3);
+        Iterator<Integer> lld1Seer = lld1.iterator();
+        while (lld1Seer.hasNext()){
+            int i = lld1Seer.next();
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    public void testEquals(){
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addFirst(1);
+        lld1.addLast(2);
+        lld1.addFirst(3);
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        lld2.addFirst(1);
+        lld2.addLast(2);
+        lld2.addFirst(3);
+        boolean result = lld1.equals(lld2);
+        assertEquals(result, true);
+    }
+
+    @Test
+    public void testEqualsFalse(){
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addFirst(1);
+        lld1.addLast(2);
+        lld1.addFirst(3);
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        lld2.addFirst(1);
+        lld2.addLast(2);
+        lld2.addFirst(5);
+        boolean result = lld1.equals(lld2);
+        assertEquals(result, false);
     }
 
 

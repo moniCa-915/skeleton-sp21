@@ -17,6 +17,13 @@ public class TestBSTMap {
 	    	fail();
 	    }
     }
+    @Test
+    public void putFirstTest() {
+        BSTMap<String, Integer> b = new BSTMap<String, Integer>();
+        b.put("hi1", null);
+        System.out.println(b.size());
+        System.out.print(b.containsKey("hi1"));
+    }
 
     //assumes put/size/containsKey/get work
     @Test
